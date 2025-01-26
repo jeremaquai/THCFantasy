@@ -115,9 +115,8 @@ To get a local copy up and running follow these simple example steps.
 
 
 * Python
-  ```sh
-  npm install npm@latest -g
-  ```
+  * Click on the link above to find out how to install python on your computer if it isn't already
+  * Don't forget to add python to your PATH search Google for help on this
 
 ### Installation
 
