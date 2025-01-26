@@ -84,7 +84,7 @@
 
 [![Product Name Screen Shot][product-screenshot]](https://example.com)
 
-Here's a blank template to get started: To avoid retyping too much info. Do a search and replace with your text editor for the following: `jeremaquai`, `THCFantasy`, `twitter_handle`, `jeremiah-sparks-0ba36a239`, `gmail`, `jeremaquai`, `THC Fantasy (working title)`, `project_description`
+Here's a blank template to get started: To avoid retyping too much info. Do a search and replace with your text editor for the following: `jeremaquai`, `THCFantasy`, `@JeremiahS92846`, `jeremiah-sparks-0ba36a239`, `gmail`, `jeremaquai`, `THC Fantasy (working title)`, `project_description`
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 
@@ -94,12 +94,12 @@ Here's a blank template to get started: To avoid retyping too much info. Do a se
 
 * [Python](https://www.python.org/)
 * [Arcade.py](https://api.arcade.academy/en/latest/)
+* [Tiled](http://www.mapeditor.org/)
+* [Pillow](https://pypi.org/project/pillow/)
 * []()
-* [Angular](https://angular.io/)
-* [Svelte](https://svelte.dev/)
-* [Laravel](https://laravel.com)
-* [Bootstrap](https://getbootstrap.com)
-* [JQuery](https://jquery.com)
+* []()
+* []()
+* []()
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 
@@ -113,8 +113,8 @@ To get a local copy up and running follow these simple example steps.
 
 ### Prerequisites
 
-This is an example of how to list things you need to use the software and how to install them.
-* npm
+
+* Python
   ```sh
   npm install npm@latest -g
   ```
@@ -157,10 +157,36 @@ _For more examples, please refer to the [Documentation](https://example.com)_
 <!-- ROADMAP -->
 ## Roadmap
 
-- [ ] Feature 1
-- [ ] Feature 2
-- [ ] Feature 3
-    - [ ] Nested Feature
+- [ ] Create the basic window for the game and set up the framework for the game
+    - [ ] Have the screen size be adjustable
+    - [ ] Allow the player to play the game in full screen mode
+    - [ ] Create a temporary start screen
+    - [ ] Create a a credits screen
+        - [ ] create one file with a dictionary containing the credtis
+        ```python
+        credits = {
+          'credit1': {
+              'credit': 'Programmer', 
+              'name': 'Me'},
+          'credit2': {
+              'credit': 'Main Character Artwork',
+              'name': 'szadiart.'}
+          }
+        ```
+- [ ] Create a simple pre-development tilemap in tiled to use while developing the character further
+- [ ] Main Character sprite and basic controls
+    - [ ] Add animations for the character sprite
+      - [ ] walking up
+      - [ ] idle up
+      - [ ] walking down
+      - [ ] idle down
+      - [ ] walking right
+      - [ ] idle right
+      - [ ] walking left
+      - [ ] idle left
+- [ ] Create a more advanced tilemap in tiled
+- [ ] Further expand the character and player classes to modify for proposed gameplay
+
 
 See the [open issues](https://github.com/jeremaquai/THCFantasy/issues) for a full list of proposed features (and known issues).
 
@@ -198,7 +224,7 @@ Distributed under the MIT License. See `LICENSE.txt` for more information.
 <!-- CONTACT -->
 ## Contact
 
-Your Name - [@twitter_handle](https://twitter.com/twitter_handle) - jeremaquai@gmail.com
+Your Name - [@JeremiahS92846](https://twitter.com/@JeremiahS92846) - jeremaquai@gmail.com
 
 Project Link: [https://github.com/jeremaquai/THCFantasy](https://github.com/jeremaquai/THCFantasy)
 
@@ -209,7 +235,8 @@ Project Link: [https://github.com/jeremaquai/THCFantasy](https://github.com/jere
 <!-- ACKNOWLEDGMENTS -->
 ## Acknowledgments
 
-* []()
+* [Szadi art.](https://szadiart.itch.io/)
+  - Creator of the main character sprite artwork 
 * []()
 * []()
 
