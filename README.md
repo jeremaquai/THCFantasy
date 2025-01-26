@@ -92,9 +92,9 @@ Here's a blank template to get started: To avoid retyping too much info. Do a se
 
 ### Built With
 
-* [Next.js](https://nextjs.org/)
-* [React.js](https://reactjs.org/)
-* [Vue.js](https://vuejs.org/)
+* [Python](https://www.python.org/)
+* [Arcade.py](https://api.arcade.academy/en/latest/)
+* []()
 * [Angular](https://angular.io/)
 * [Svelte](https://svelte.dev/)
 * [Laravel](https://laravel.com)
@@ -121,19 +121,23 @@ This is an example of how to list things you need to use the software and how to
 
 ### Installation
 
-1. Get a free API Key at [https://example.com](https://example.com)
-2. Clone the repo
+1. Clone the repo
    ```sh
    git clone https://github.com/jeremaquai/THCFantasy.git
    ```
-3. Install NPM packages
+2. Create a virtual environment
+    ```bash
+    python -m venv my_env
+    ```
+3. Activate the Python virtual environment
+    ```bash
+    source my_env/bin/activate
+    ```
+4. Install PIP packages
    ```sh
-   npm install
+   pip install requirements.txt
    ```
-4. Enter your API in `config.js`
-   ```js
-   const API_KEY = 'ENTER YOUR API';
-   ```
+5. 
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 
