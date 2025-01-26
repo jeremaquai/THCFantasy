@@ -1,12 +1,26 @@
 import arcade
+from arcade.types import LRBT
 from fadingView import FadingView
 from constants import WIDTH, HEIGHT
 
 class MenuView(FadingView):
     '''Class that manages the menu view'''
+    def __init__(self):
+        super().__init__()
+
+        self.background_color = arcade.color.WHITE
+
+    def on_resize(self, width, height):
+        '''This method is automatically called when the window is resized'''
+        # Call the parent.  Failing to do this will mess up the coordinates, and default to 0,0 at the center and the edges being -1 to 1
+        super().on_resize(width, height)
+
+        print(f'Window resized to: {width}, {height}')
 
     def on_update(self, dt):
         self.update_fade(next_view=GameView)
+
+        
 
     def on_show_view(self):
         '''Called when swiching to this view'''
@@ -16,8 +30,8 @@ class MenuView(FadingView):
         '''Draw the menu'''
         self.clear()
         arcade.draw_text('Menu Screen - press space to advance', 
-                         WIDTH / 2, 
-                         HEIGHT / 2,
+                         self.width / 2, 
+                         self.height / 2,
                          arcade.color.BLACK,
                          font_size=30,
                          anchor_x='center')
@@ -53,8 +67,8 @@ class GameView(FadingView):
         '''Draw everything for the game'''
         self.clear()
         arcade.draw_text('Game - press space to advance',
-                         WIDTH / 2,
-                         HEIGHT / 2,
+                         self.width / 2,
+                         self.height / 2,
                          arcade.color.BLACK,
                          font_size=30,
                          anchor_x='center')
@@ -78,8 +92,8 @@ class GameOverView(FadingView):
         '''Draw the GameOver view'''
         self.clear()
         arcade.draw_text('Game Over - press SPACE to advance',
-                         WIDTH /2,
-                         HEIGHT / 2,
+                         self.width /2,
+                         self.height / 2,
                          arcade.color.WHITE,
                          font_size=30,
                          anchor_x='center')
@@ -99,7 +113,7 @@ class GameOverView(FadingView):
 def main():
     '''Main function or Startup'''
     # Create a window class.  This is what actually shows up on the screen
-    window = arcade.Window(WIDTH, HEIGHT, 'THC Fantasy')
+    window = arcade.Window(WIDTH, HEIGHT, 'THC Fantasy', resizable=True)
 
     # Create and setup the MenuView
     menu_view = MenuView()
