@@ -84,7 +84,7 @@
 
 [![Product Name Screen Shot][product-screenshot]](https://example.com)
 
-Here's a blank template to get started: To avoid retyping too much info. Do a search and replace with your text editor for the following:  `twitter_handle`, `project_description`
+Here's a blank template to get started: To avoid retyping too much info. Do a search and replace with your text editor for the following: `jeremaquai`, `THCFantasy`, `twitter_handle`, `jeremiah-sparks-0ba36a239`, `gmail`, `jeremaquai`, `THC Fantasy (working title)`, `project_description`
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 
@@ -92,8 +92,8 @@ Here's a blank template to get started: To avoid retyping too much info. Do a se
 
 ### Built With
 
-* [Python](https://www.python.org/)
-* [Arcade.py](https://api.arcade.academy/en/2.6.9/#)
+* [Next.js](https://nextjs.org/)
+* [React.js](https://reactjs.org/)
 * [Vue.js](https://vuejs.org/)
 * [Angular](https://angular.io/)
 * [Svelte](https://svelte.dev/)
