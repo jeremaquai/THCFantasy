@@ -1,7 +1,7 @@
 import arcade
 from arcade.types import LRBT
 from fadingView import FadingView
-from constants import WIDTH, HEIGHT
+from constants import WIDTH, HEIGHT, WINDOW_TITLE
 
 class MenuView(FadingView):
     '''Class that manages the menu view'''
@@ -13,14 +13,13 @@ class MenuView(FadingView):
     def on_resize(self, width, height):
         '''This method is automatically called when the window is resized'''
         # Call the parent.  Failing to do this will mess up the coordinates, and default to 0,0 at the center and the edges being -1 to 1
+        
         super().on_resize(width, height)
 
-        print(f'Window resized to: {width}, {height}')
+        # print(f'Window resized to: {width}, {height}')
 
     def on_update(self, dt):
-        self.update_fade(next_view=GameView)
-
-        
+        self.update_fade(next_view=GameView)   
 
     def on_show_view(self):
         '''Called when swiching to this view'''
@@ -41,6 +40,8 @@ class MenuView(FadingView):
         '''Handle key presses, In this case, we'll just count a SPACE as game over and advance to the game view'''
         if self.fade_out is None and key == arcade.key.SPACE:
             self.fade_out = 0
+        elif key == arcade.key.ESCAPE:
+            self.window.close()
 
     def setup(self):
         '''This should set up your game and get it ready to play'''
@@ -78,6 +79,8 @@ class GameView(FadingView):
         '''Handle key presses, In this casse, we'll just count a space as a game over and advance to the GameOver View'''
         if key == arcade.key.SPACE:
             self.fade_out = 0
+        elif key == arcade.key.ESCAPE:
+            self.window.close()
 
 class GameOverView(FadingView):
     '''Class to manage the GameOver view'''
@@ -103,6 +106,8 @@ class GameOverView(FadingView):
         '''If user hits SPACE, go back to the main menu view'''
         if key == arcade.key.SPACE:
             self.fade_out = 0
+        elif key == arcade.key.ESCAPE:
+            self.window.close()
 
     def setup(self):
         '''This should setup your game and get it ready to play'''
@@ -113,7 +118,7 @@ class GameOverView(FadingView):
 def main():
     '''Main function or Startup'''
     # Create a window class.  This is what actually shows up on the screen
-    window = arcade.Window(WIDTH, HEIGHT, 'THC Fantasy', resizable=True)
+    window = arcade.Window(WIDTH, HEIGHT, WINDOW_TITLE, resizable=True)
 
     # Create and setup the MenuView
     menu_view = MenuView()
