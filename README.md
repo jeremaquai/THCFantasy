@@ -84,7 +84,6 @@
 
 [![Product Name Screen Shot][product-screenshot]](https://example.com)
 
-Here's a blank template to get started: To avoid retyping too much info. Do a search and replace with your text editor for the following: `jeremaquai`, `THCFantasy`, `@JeremiahS92846`, `jeremiah-sparks-0ba36a239`, `gmail`, `jeremaquai`, `THC Fantasy (working title)`, `project_description`
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 
