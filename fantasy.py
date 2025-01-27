@@ -75,6 +75,13 @@ class GameView(FadingView):
         # Set the background
         self.background_color = arcade.csscolor.CORNFLOWER_BLUE
 
+        # The camera used to update the viewport and projection on screen resize
+        self.viewCamera = arcade.camera.Camera2D(
+            position=(0, 0),
+            projection=LRBT(left=0, right=WIDTH, bottom=0, top=HEIGHT),
+            viewport=self.window.rect
+        )
+
     def setup(self):
         '''This should set up ypur game and get it ready to play'''
 
@@ -144,12 +151,13 @@ class GameView(FadingView):
         # Clear the screen
         self.clear()
         
-        # Draw the sprites
-        self.player_list.draw()
-        self.wall_list.draw()
+        with self.viewCamera.activate():
+            # Draw the sprites
+            self.player_list.draw()
+            self.wall_list.draw()
 
-        # Draw the fading view when loading or unloading view
-        self.draw_fading()
+            # Draw the fading view when loading or unloading view
+            self.draw_fading()#
 
     
 
@@ -189,6 +197,15 @@ class GameView(FadingView):
             self.fade_out = 0
         elif key == arcade.key.ESCAPE:
             self.window.close()
+        elif key == arcade.key.F:
+            # User hits F Flip between full and not full screen
+            self.window.set_fullscreen(not self.window.fullscreen)
+
+            # Get the window coordinates.  Match viewport to window coordinates so there is a one to one mapping
+            self.viewCamera.viewport = self.window.rect
+            self.viewCamera.projection = arcade.LRBT(0.0, self.width, 0.0, self.height)
+            self.player_sprite.window_height = self.height
+            self.player_sprite.window_width = self.width
     
     def on_key_release(self, key, _modifiers):
         '''Called whenever a key is released'''
