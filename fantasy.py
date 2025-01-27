@@ -143,13 +143,15 @@ class GameView(FadingView):
 
         # Clear the screen
         self.clear()
-
+        
         # Draw the sprites
         self.player_list.draw()
         self.wall_list.draw()
 
         # Draw the fading view when loading or unloading view
         self.draw_fading()
+
+    
 
     def update_player_speed(self):
 
@@ -246,7 +248,7 @@ class GameOverView(FadingView):
 def main():
     '''Main function or Startup'''
     # Create a window class.  This is what actually shows up on the screen
-    window = arcade.Window(WIDTH, HEIGHT, WINDOW_TITLE, resizable=True)
+    window = arcade.Window(WIDTH, HEIGHT, WINDOW_TITLE, resizable=False)
 
     # Create and setup the MenuView
     menu_view = MenuView()
