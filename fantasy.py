@@ -7,7 +7,8 @@ from constants import (WIDTH,
                        WINDOW_TITLE,
                        TILE_SCALING, 
                        PLAYER_MOVEMENT_SPEED, 
-                       PLAYER_SCALING)
+                       PLAYER_SCALING,
+                       ENEMY_SCALING)
 
 class MenuView(FadingView):
     '''Class that manages the menu view'''
@@ -59,9 +60,15 @@ class GameView(FadingView):
         #Call the parent class
         super().__init__()
 
+        # Variable to hold our texture for our player
+        self.player_texture = None
+
         # Variables that will hold sprite lists
         self.player_list = None
         self.wall_list = None
+
+        # Enemies
+        self.enemy_list = None
 
         # Set up the player info
         self.player_sprite = None       
@@ -82,6 +89,15 @@ class GameView(FadingView):
             viewport=self.window.rect
         )
 
+        # The player camera
+        self.playerCamera = None
+
+        # A variable to store the gui camera
+        self.gui_camera = None
+
+        # This variable will store the text for XP that will draw to the screen
+        self.xp_text = None
+
     def setup(self):
         '''This should set up ypur game and get it ready to play'''
 
@@ -91,6 +107,8 @@ class GameView(FadingView):
         # SpriteList for boxes and ground
         '''Putting the ground and box sprites in the same Spritelist will make it easier to perform collision detection against them later on.  Setting the spatial hash to True will make collision detection much faster if the objects in this SpriteList do not move'''
         self.wall_list = arcade.SpriteList(use_spatial_hash=True)
+        # Coin tile list
+        self.enemy_list = arcade.SpriteList(use_spatial_hash=True)
         
         # Set up the player
         # Variable to hold texture for the player
@@ -127,16 +145,52 @@ class GameView(FadingView):
             wall.position = coordinate
             self.wall_list.append(wall)
 
+        # Add Coins to the world
+        for x in range(128, 1250, 256):
+            enemy = arcade.Sprite('./assets/characters/mixed-sprites-2/frog.png',
+                                 scale=ENEMY_SCALING)
+            enemy.center_x = x
+            enemy.center_y = 96
+            self.enemy_list.append(enemy)
+
+
         # Create a Simple Physics Engine, this will handle moving the player as well as collisions between the player sprite and whatever SpriteList I specify as walls.
         self.physics_engine = arcade.PhysicsEngineSimple(
             self.player_sprite, self.wall_list
         )
 
+        # Initialize the player camera, setting a viewport the size of our window
+        self.playerCamera = arcade.camera.Camera2D()
+
+        # Initialize the gui camera, initial settings are the same as the player camera
+        self.gui_camera = arcade.camera.Camera2D()
+
+        # Initialize the arcade.Text object for the xp
+        self.xp_text = arcade.Text(f'Player XP: {self.player_sprite.currentXp}', x=0, y=5)
+
     def on_update(self, dt):
         '''Movement and game Logic'''
         # Move the player using the physics engine
         self.physics_engine.update()
+
+        # See if we hit any coins
+        enemy_hit_list = arcade.check_for_collision_with_list(
+            self.player_sprite, self.enemy_list
+        )
+
+        # Loop through each enemy we hit (if any) and remove it
+        for enemy in enemy_hit_list:
+            # Add xp to the player sprite
+            self.player_sprite.currentXp += 10
+            # remove the coin
+            enemy.remove_from_sprite_lists()
+            self.xp_text.text = f'Player XP: {self.player_sprite.currentXp}'
+
+        # Center the player camera on the player
+        self.playerCamera.position = self.player_sprite.position
+
         self.player_sprite.update(delta_time=dt)
+        # Having the fade loaded for when ready
         self.update_fade(next_view=GameOverView)
 
         
@@ -152,9 +206,18 @@ class GameView(FadingView):
         self.clear()
         
         with self.viewCamera.activate():
+            #Activate the player camera before drawing
+            self.playerCamera.use()
             # Draw the sprites
             self.player_list.draw()
             self.wall_list.draw()
+            self.enemy_list.draw()
+
+            # Activate the GUI camera
+            self.gui_camera.use()
+
+            # Draw the xp
+            self.xp_text.draw()
 
             # Draw the fading view when loading or unloading view
             self.draw_fading()#
@@ -206,6 +269,9 @@ class GameView(FadingView):
             self.viewCamera.projection = arcade.LRBT(0.0, self.width, 0.0, self.height)
             self.player_sprite.window_height = self.height
             self.player_sprite.window_width = self.width
+                #extend the player camera with the window
+            self.playerCamera.viewport = self.window.rect
+            
     
     def on_key_release(self, key, _modifiers):
         '''Called whenever a key is released'''

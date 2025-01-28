@@ -32,12 +32,12 @@ class Player(Character):
         '''Move the player'''
         # Move player
         # check for out-of-bounds
-        if self.left < 0:
-            self.left = 0
-        elif self.right > self.window_width - 1:
-            self.right = self.window_width - 1
+        # if self.left < 0:
+        #     self.left = 0
+        # elif self.right > self.window_width - 1:
+        #     self.right = self.window_width - 1
 
-        if self.bottom < 0:
-            self.bottom = 0
-        elif self.top > self.window_height - 1:
-            self.top = self.window_height - 1
+        # if self.bottom < 0:
+        #     self.bottom = 0
+        # elif self.top > self.window_height - 1:
+        #     self.top = self.window_height - 1
