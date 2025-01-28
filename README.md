@@ -155,10 +155,10 @@ _For more examples, please refer to the [Documentation](https://example.com)_
 <!-- ROADMAP -->
 ## Roadmap
 
-- [ ] Create the basic window for the game and set up the framework for the game
-    - [ ] Have the screen size be adjustable
-    - [ ] Allow the player to play the game in full screen mode
-    - [ ] Create a temporary start screen
+- [ x ] Create the basic window for the game and set up the framework for the game
+    - [  ] Have the screen size be adjustable
+    - [ x ] Allow the player to play the game in full screen mode
+    - [ x ] Create a temporary start screen
     - [ ] Create a a credits screen
         - [ ] create one file with a dictionary containing the credtis
         ```python

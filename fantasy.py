@@ -7,7 +7,8 @@ from constants import (WIDTH,
                        WINDOW_TITLE,
                        TILE_SCALING, 
                        PLAYER_MOVEMENT_SPEED, 
-                       PLAYER_SCALING)
+                       PLAYER_SCALING,
+                       COIN_SCALING)
 
 class MenuView(FadingView):
     '''Class that manages the menu view'''
@@ -63,6 +64,9 @@ class GameView(FadingView):
         self.player_list = None
         self.wall_list = None
 
+        # Coins
+        self.coin_list = None
+
         # Set up the player info
         self.player_sprite = None       
 
@@ -82,6 +86,9 @@ class GameView(FadingView):
             viewport=self.window.rect
         )
 
+        # The player camera
+        self.playerCamera = None
+
     def setup(self):
         '''This should set up ypur game and get it ready to play'''
 
@@ -91,6 +98,8 @@ class GameView(FadingView):
         # SpriteList for boxes and ground
         '''Putting the ground and box sprites in the same Spritelist will make it easier to perform collision detection against them later on.  Setting the spatial hash to True will make collision detection much faster if the objects in this SpriteList do not move'''
         self.wall_list = arcade.SpriteList(use_spatial_hash=True)
+        # Coin tile list
+        self.coin_list = arcade.SpriteList(use_spatial_hash=True)
         
         # Set up the player
         # Variable to hold texture for the player
@@ -127,16 +136,43 @@ class GameView(FadingView):
             wall.position = coordinate
             self.wall_list.append(wall)
 
+        # Add Coins to the world
+        for x in range(128, 1250, 256):
+            coin = arcade.Sprite(':resources:/images/items/coinGold.png',
+                                 scale=COIN_SCALING)
+            coin.center_x = x
+            coin.center_y = 96
+            self.coin_list.append(coin)
+
+
         # Create a Simple Physics Engine, this will handle moving the player as well as collisions between the player sprite and whatever SpriteList I specify as walls.
         self.physics_engine = arcade.PhysicsEngineSimple(
             self.player_sprite, self.wall_list
         )
 
+        # Initialize the player camera, setting a viewport the size of our window
+        self.playerCamera = arcade.camera.Camera2D()
+
     def on_update(self, dt):
         '''Movement and game Logic'''
         # Move the player using the physics engine
         self.physics_engine.update()
+
+        # See if we hit any coins
+        coin_hit_list = arcade.check_for_collision_with_list(
+            self.player_sprite, self.coin_list
+        )
+
+        # Loop through each coin we hit (if any) and remove it
+        for coin in coin_hit_list:
+            # remove the coin
+            coin.remove_from_sprite_lists()
+
+        # Center the player camera on the player
+        self.playerCamera.position = self.player_sprite.position
+
         self.player_sprite.update(delta_time=dt)
+        # Having the fade loaded for when ready
         self.update_fade(next_view=GameOverView)
 
         
@@ -152,9 +188,12 @@ class GameView(FadingView):
         self.clear()
         
         with self.viewCamera.activate():
+            #Activate the player camera before drawing
+            self.playerCamera.use()
             # Draw the sprites
             self.player_list.draw()
             self.wall_list.draw()
+            self.coin_list.draw()
 
             # Draw the fading view when loading or unloading view
             self.draw_fading()#
@@ -206,6 +245,9 @@ class GameView(FadingView):
             self.viewCamera.projection = arcade.LRBT(0.0, self.width, 0.0, self.height)
             self.player_sprite.window_height = self.height
             self.player_sprite.window_width = self.width
+                #extend the player camera with the window
+            self.playerCamera.viewport = self.window.rect
+            
     
     def on_key_release(self, key, _modifiers):
         '''Called whenever a key is released'''
