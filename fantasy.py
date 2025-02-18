@@ -63,15 +63,11 @@ class GameView(FadingView):
         # Variable to hold our texture for our player
         self.player_texture = None
 
-        # Variables that will hold sprite lists
-        self.player_list = None
-        self.wall_list = None
-
-        # Enemies
-        self.enemy_list = None
-
-        # Set up the player info
+        # Separate variable to hold the player sprite
         self.player_sprite = None       
+
+        # Replacing all of the SpriteLists with a Scene variable
+        self.scene = None
 
         # Track the current state of what key is pressed
         self.left_pressed = False
@@ -101,14 +97,8 @@ class GameView(FadingView):
     def setup(self):
         '''This should set up ypur game and get it ready to play'''
 
-        # Sprite lists
-        # SpriteList for the player sprite
-        self.player_list = arcade.SpriteList()
-        # SpriteList for boxes and ground
-        '''Putting the ground and box sprites in the same Spritelist will make it easier to perform collision detection against them later on.  Setting the spatial hash to True will make collision detection much faster if the objects in this SpriteList do not move'''
-        self.wall_list = arcade.SpriteList(use_spatial_hash=True)
-        # Coin tile list
-        self.enemy_list = arcade.SpriteList(use_spatial_hash=True)
+        # Set up the Scene
+        self.scene = arcade.Scene()
         
         # Set up the player
         # Variable to hold texture for the player
@@ -121,7 +111,11 @@ class GameView(FadingView):
                                         scale=PLAYER_SCALING)
         self.player_sprite.center_x = 64
         self.player_sprite.center_y = 128
-        self.player_list.append(self.player_sprite)
+        self.scene.add_sprite('Player', self.player_sprite)
+
+        # Add the SprieLists to the scene
+        self.scene.add_sprite_list('Walls', use_spatial_hash=True)
+        self.scene.add_sprite_list('Enemies', use_spatial_hash=True)
 
         # Create the ground
         # This shows using a loop to place multiple sprites horizontally
@@ -130,7 +124,7 @@ class GameView(FadingView):
                                 scale=TILE_SCALING)
             wall.center_x = x
             wall.center_y = 32
-            self.wall_list.append(wall)
+            self.scene.add_sprite('Walls', wall)
 
         # Put some crates on the ground
         # This shows using a coordinate list to place sprites
@@ -143,7 +137,7 @@ class GameView(FadingView):
                 scale=TILE_SCALING
             )
             wall.position = coordinate
-            self.wall_list.append(wall)
+            self.scene.add_sprite('Walls', wall)
 
         # Add Coins to the world
         for x in range(128, 1250, 256):
@@ -151,12 +145,12 @@ class GameView(FadingView):
                                  scale=ENEMY_SCALING)
             enemy.center_x = x
             enemy.center_y = 96
-            self.enemy_list.append(enemy)
+            self.scene.add_sprite('Enemies', enemy)
 
 
         # Create a Simple Physics Engine, this will handle moving the player as well as collisions between the player sprite and whatever SpriteList I specify as walls.
         self.physics_engine = arcade.PhysicsEngineSimple(
-            self.player_sprite, self.wall_list
+            self.player_sprite, walls=self.scene['Walls']
         )
 
         # Initialize the player camera, setting a viewport the size of our window
@@ -175,7 +169,7 @@ class GameView(FadingView):
 
         # See if we hit any coins
         enemy_hit_list = arcade.check_for_collision_with_list(
-            self.player_sprite, self.enemy_list
+            self.player_sprite, self.scene['Enemies']
         )
 
         # Loop through each enemy we hit (if any) and remove it
@@ -209,9 +203,7 @@ class GameView(FadingView):
             #Activate the player camera before drawing
             self.playerCamera.use()
             # Draw the sprites
-            self.player_list.draw()
-            self.wall_list.draw()
-            self.enemy_list.draw()
+            self.scene.draw()
 
             # Activate the GUI camera
             self.gui_camera.use()
